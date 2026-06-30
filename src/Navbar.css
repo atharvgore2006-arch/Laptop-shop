@@ -1,0 +1,57 @@
+body{
+  margin:0;
+  font-family:Arial;
+}
+
+/* Navbar */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  background:black;
+  padding:15px 40px;
+
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+/* Logo */
+.logo{
+  color:white;
+}
+
+/* Menu */
+.menu{
+  display:flex;
+  gap:20px;
+  list-style:none;
+}
+
+/* Links */
+.menu a{
+  color:white;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+/* Hover */
+.menu a:hover{
+  color:lime;
+}
+
+/* Responsive */
+@media(max-width:768px){
+
+  .navbar{
+    flex-direction:column;
+  }
+
+  .menu{
+    flex-direction:column;
+    text-align:center;
+    padding:0;
+  }
+
+}
