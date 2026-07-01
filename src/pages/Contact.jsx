@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MapPin, Phone, Mail } from "lucide-react";
 import map from '../assets/map.jpg';
-import Chatbot from "../components/Chatbot";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -59,7 +58,6 @@ const Contact = () => {
 
         <div className="contact-form-container">
           <h2>Send us a Message</h2>
-                <Chatbot />
 
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">

@@ -21,7 +21,7 @@ function App() {
         return prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
       }
       return [...prevCart, { ...product, quantity: 1 }];
@@ -31,19 +31,15 @@ function App() {
   };
 
   const removeFromCart = (productId) => {
-    setCart((prevCart) =>
-      prevCart.filter((item) => item.id !== productId)
-    );
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.id === productId
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
+        item.id === productId ? { ...item, quantity: newQuantity } : item,
+      ),
     );
   };
 
