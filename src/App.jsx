@@ -34,6 +34,10 @@ function App() {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
     setCart((prevCart) =>
@@ -84,6 +88,7 @@ function App() {
             removeFromCart={removeFromCart}
             updateQuantity={updateQuantity}
             closeCart={() => setIsCartOpen(false)}
+            clearCart={clearCart}
           />
         )}
       </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X, ShoppingCart } from "lucide-react";
-import logo from "../assets/core.png";
+import logo from "../assets/bgrem.png";
+import '../Navbar.css'
 const Navbar = ({ cartCount, openCart }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -8,10 +9,26 @@ const Navbar = ({ cartCount, openCart }) => {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container container">
+    <nav className="navbar" style={{
+
+      background:
+        "linear-gradient(135deg, #0f172a, #1e293b, #4338ca)",
+      // backgroundSize: "300% 300%",
+      // animation: "gradientMove 8s ease infinite",
+      color: "white",
+      boxshadow: "0 4px 20px rgba(67, 56, 202, 0.25)"
+
+    }} >
+      <div className="navbar-container container" style={{
+
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        padding: "10px0"
+      }}>
+
         <a href="/#home" onClick={closeMenu}>
-          <img src={logo} alt="logo" height="45px" width="100px" />
+          <img src={logo} alt="logo" height="54px" width="109px" style={{ marginLeft: "40px", marginTop: "5px" }} />
         </a>
         <div className="menu-icon" onClick={toggleMenu}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -61,7 +78,7 @@ const Navbar = ({ cartCount, openCart }) => {
           </button>
         </div>
       </div>
-    </nav>
+    </nav >
   );
 };
 

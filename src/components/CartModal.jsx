@@ -1,11 +1,43 @@
 // import React from 'react';
 import { Trash2, Plus, Minus, X } from "lucide-react";
 
-const CartModal = ({ cart, removeFromCart, updateQuantity, closeCart }) => {
+const CartModal = ({ cart, removeFromCart, updateQuantity, closeCart, clearCart }) => {
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
   );
+
+  const handleCheckout = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          totalPrice,
+          items: cart.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert(`✅ Your order has been placed successfully! (Order ID: ${data.orderId})`);
+        clearCart();
+        closeCart();
+      } else {
+        alert(`❌ Failed to place order: ${data.error || "Unknown error"}`);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      alert("❌ A network error occurred while trying to place your order. Please check that the server is running.");
+    }
+  };
 
   return (
     <div className="cart-modal-overlay">
@@ -72,7 +104,7 @@ const CartModal = ({ cart, removeFromCart, updateQuantity, closeCart }) => {
               <span>Total:</span>
               <span>₹{totalPrice.toFixed(2)}</span>
             </div>
-            <button className="primary-button checkout-button">
+            <button onClick={handleCheckout} className="primary-button checkout-button">
               Proceed to Checkout
             </button>
           </div>

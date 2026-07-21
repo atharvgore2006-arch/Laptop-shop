@@ -14,11 +14,29 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Message sent successfully! We will get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert("Message sent successfully! We will get back to you soon.");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        alert(`❌ Failed to send message: ${data.error || "Unknown error"}`);
+      }
+    } catch (err) {
+      console.error("Contact submission error:", err);
+      alert("❌ A network error occurred. Please check that the server is running.");
+    }
   };
 
   return (

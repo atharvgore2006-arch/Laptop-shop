@@ -72,6 +72,10 @@ ul {
   margin-bottom: 40px;
   color: var(--text-color);
   font-weight: 700;
+
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Navbar */
@@ -111,7 +115,8 @@ ul {
 
 .nav-links {
   font-weight: 500;
-  color: var(--text-light);
+  /* color: var(--text-light); */
+  color: white;
   transition: var(--transition);
 }
 
@@ -133,7 +138,8 @@ ul {
   position: relative;
   display: flex;
   align-items: center;
-  color: var(--text-color);
+  /* color: var(--text-color); */
+  color: white;
   transition: var(--transition);
 }
 
@@ -207,7 +213,6 @@ ul {
 
 /* Home Page */
 .hero-section {
- 
   height: calc(100vh - 80px);
   display: flex;
   align-items: center;
@@ -254,6 +259,9 @@ ul {
   text-align: center;
   font-size: 2rem;
   margin-bottom: 40px;
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .features-grid {
@@ -269,14 +277,29 @@ ul {
   box-shadow: var(--shadow-sm);
   text-align: center;
   transition: var(--transition);
+  background-color: whitesmoke;
+  /* background: linear-gradient(
+    135deg,
+    #090d16 0%,
+    #0f172a 35%,
+    #1e1b4b 70%,
+    #2e1065 100%
+  ); */
+  color: black;
 }
 
 .feature-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.3);
 }
 
+/* .featured-section-container{
+  
+} */
+
 .feature-card h3 {
+  color: #64b5f6;
   margin-bottom: 15px;
   color: var(--primary-color);
 }
@@ -388,7 +411,7 @@ ul {
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.5s ease;
 }
 
