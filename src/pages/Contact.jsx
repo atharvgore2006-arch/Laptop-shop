@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MapPin, Phone, Mail } from "lucide-react";
-import map from '../assets/map.jpg';
+// import map from '../assets/map.jpg';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -65,12 +65,19 @@ const Contact = () => {
           </div>
 
           <div className="map-placeholder">
-            <img
-              src={map}
-              alt="Map Placeholder"
-              className="map-image rounded-image"
-            />
-            <div className="map-overlay">Map View</div>
+            <div className="map-placeholder">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48277.34061580769!2d74.45551330351385!3d19.722258112480564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdc5939488f747b%3A0xcaccd2f624d0beb4!2sRahata%2C%20Maharashtra!5e1!3m2!1sen!2sin!4v1784733919439!5m2!1sen!2sin"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                className="rounded-map"
+                title="Rahata Map"
+              ></iframe>
+            </div>
           </div>
         </div>
 

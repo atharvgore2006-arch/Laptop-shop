@@ -29,41 +29,40 @@ const Home = () => {
         </div>
       </div>
 
-      <div className=" featured-section container" style={{
-        background: "linear-gradient(135deg, #746666 0%, #3e556d 45%, #e0f2fe 100%)"
-      }}>
-        <h2 className="section-title">Why Choose Us?</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            {/* <Globe size={30} /> */}
-            <img src={premium} alt="" style={{ width: '104%', height: '170px', objectFit: 'contain' }} />
-            <h3>Premium Quality</h3>
-            <p>We only stock laptops from the top-rated brands globally.</p>
+      <div className="featured-section">
+        <div className="container">
+          <div className="featured-header">
+            <span className="featured-subtitle">OUR ADVANTAGES</span>
+            <h2 className="section-title">Why Choose Us?</h2>
+            <div className="featured-divider"></div>
           </div>
-          <div className="feature-card">
-            {/* <Info size={30} /> */}
-            {/* <img src={clientsupport} alt="no img" /> */}
-            <img src={clientsupport} alt='no img' style={{ height: '200px', width: '250px' }} />
-            <h3>Expert Support</h3>
-            <p>Our technicians are always ready to help you with any issues.</p>
-          </div>
-          <div className="feature-card">
-
-            {/* <Truck size={30} /> */}
-            <img src={fast} alt="no img" style={{
-              width: "270px",
-              height: "200px",
-              marginRight:'10px'
-              // display: "flex",   
-              // alignItems: "center",
-              // gap: "85px",
-              // border: "1px solid black",
-              // margin: "10px"
-            }} />
-            <h3>Fast Delivery</h3>
-            <p>
-              Get your new laptop delivered to your doorstep in record time.
-            </p>
+          
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-image-wrapper">
+                <img src={premium} alt="Premium Quality" className="feature-image contain" />
+              </div>
+              <h3>Premium Quality</h3>
+              <p>We only stock laptops from the top-rated brands globally.</p>
+            </div>
+            
+            <div className="feature-card">
+              <div className="feature-image-wrapper">
+                <img src={clientsupport} alt="Expert Support" className="feature-image cover" />
+              </div>
+              <h3>Expert Support</h3>
+              <p>Our technicians are always ready to help you with any issues.</p>
+            </div>
+            
+            <div className="feature-card">
+              <div className="feature-image-wrapper">
+                <img src={fast} alt="Fast Delivery" className="feature-image cover" />
+              </div>
+              <h3>Fast Delivery</h3>
+              <p>
+                Get your new laptop delivered to your doorstep in record time.
+              </p>
+            </div>
           </div>
         </div>
       </div>

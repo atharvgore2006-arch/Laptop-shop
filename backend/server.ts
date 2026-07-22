@@ -76,11 +76,9 @@ fastify.post<{ Body: OrderRequestBody }>(
     const { totalPrice, items } = request.body || {};
 
     if (!totalPrice || !Array.isArray(items) || items.length === 0) {
-      return reply
-        .status(400)
-        .send({
-          error: "Invalid order data. totalPrice and items are required.",
-        });
+      return reply.status(400).send({
+        error: "Invalid order data. totalPrice and items are required.",
+      });
     }
 
     const pool = await getPool();
