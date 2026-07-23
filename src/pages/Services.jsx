@@ -1,4 +1,9 @@
-import { Wrench, MonitorDown, Headphones, Paintbrush, Database, Cpu } from 'lucide-react';
+import repair from "../assets/repair.png";
+import windows from "../assets/windows.png";
+import accessories from "../assets/accessories.png";
+import cleaning from "../assets/cleaning.png";
+import recovery from "../assets/recovery.png";
+import upgrade from "../assets/upgrade.png";
 
 const Services = () => {
   const services = [
@@ -6,37 +11,37 @@ const Services = () => {
       id: 1,
       title: 'Laptop Repair',
       description: 'Expert hardware and software repair for all major laptop brands. Fast turnaround times.',
-      icon: <Wrench size={48} className="service-icon" />
+      image: repair
     },
     {
       id: 2,
       title: 'Windows Installation',
       description: 'Fresh OS installations, upgrades, and optimization for peak performance.',
-      icon: <MonitorDown size={48} className="service-icon" />
+      image: windows
     },
     {
       id: 3,
       title: 'Accessories',
       description: 'Find the perfect peripherals: mice, keyboards, cases, and cooling pads.',
-      icon: <Headphones size={48} className="service-icon" />
+      image: accessories
     },
     {
       id: 4,
       title: 'Laptop Cleaning',
       description: 'Deep cleaning services to prevent overheating and extend your laptop life.',
-      icon: <Paintbrush size={48} className="service-icon" />
+      image: cleaning
     },
     {
       id: 5,
       title: 'Data Recovery',
       description: 'Professional data recovery for damaged drives and accidental deletions.',
-      icon: <Database size={48} className="service-icon" />
+      image: recovery
     },
     {
       id: 6,
       title: 'Hardware Upgrades',
       description: 'Boost performance with SSD and RAM upgrades tailored for your system.',
-      icon: <Cpu size={48} className="service-icon" />
+      image: upgrade
     }
   ];
 
@@ -46,7 +51,9 @@ const Services = () => {
       <div className="services-grid">
         {services.map(service => (
           <div key={service.id} className="service-card">
-            {service.icon}
+            <div className="service-image-wrapper">
+              <img src={service.image} alt={service.title} className="service-image" />
+            </div>
             <h3>{service.title}</h3>
             <p>{service.description}</p>
           </div>

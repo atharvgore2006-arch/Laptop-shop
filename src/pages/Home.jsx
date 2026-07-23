@@ -36,7 +36,7 @@ const Home = () => {
             <h2 className="section-title">Why Choose Us?</h2>
             <div className="featured-divider"></div>
           </div>
-          
+
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-image-wrapper">
@@ -45,7 +45,7 @@ const Home = () => {
               <h3>Premium Quality</h3>
               <p>We only stock laptops from the top-rated brands globally.</p>
             </div>
-            
+
             <div className="feature-card">
               <div className="feature-image-wrapper">
                 <img src={clientsupport} alt="Expert Support" className="feature-image cover" />
@@ -53,7 +53,7 @@ const Home = () => {
               <h3>Expert Support</h3>
               <p>Our technicians are always ready to help you with any issues.</p>
             </div>
-            
+
             <div className="feature-card">
               <div className="feature-image-wrapper">
                 <img src={fast} alt="Fast Delivery" className="feature-image cover" />
