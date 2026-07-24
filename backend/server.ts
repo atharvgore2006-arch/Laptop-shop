@@ -1,6 +1,7 @@
 import Fastify, { FastifyInstance } from "fastify";
 import cors from "@fastify/cors";
 import dotenv from "dotenv";
+import crypto from "crypto";
 import { getPool, initializeDatabase } from "./db";
 
 dotenv.config();
@@ -126,6 +127,186 @@ fastify.post<{ Body: OrderRequestBody }>(
       connection.release();
     }
   },
+);
+
+// POST /api/admin/signup - Register a new admin
+fastify.post<{ Body: { username?: string; password?: string } }>(
+  "/api/admin/signup",
+  async (request, reply) => {
+    const { username, password } = request.body || {};
+    if (!username || !password) {
+      return reply.status(400).send({ error: "Username and password are required" });
+    }
+
+    try {
+      const pool = await getPool();
+      // Check if user already exists
+      const [existing]: any = await pool.query("SELECT * FROM admins WHERE username = ?", [username]);
+      if (existing.length > 0) {
+        return reply.status(400).send({ error: "Username is already taken" });
+      }
+
+      // Hash password using sha256
+      const hashedPassword = crypto.createHash("sha256").update(password).digest("hex");
+
+      await pool.query("INSERT INTO admins (username, password) VALUES (?, ?)", [
+        username,
+        hashedPassword,
+      ]);
+
+      return { success: true };
+    } catch (err) {
+      fastify.log.error(err);
+      reply.status(500).send({ error: "Failed to register admin account" });
+    }
+  }
+);
+
+// POST /api/admin/login - Authenticate admin against database
+fastify.post<{ Body: { username?: string; password?: string } }>(
+  "/api/admin/login",
+  async (request, reply) => {
+    const { username, password } = request.body || {};
+    if (!username || !password) {
+      return reply.status(400).send({ error: "Username and password are required" });
+    }
+
+    try {
+      const pool = await getPool();
+      const [users]: any = await pool.query("SELECT * FROM admins WHERE username = ?", [username]);
+      if (users.length === 0) {
+        return reply.status(401).send({ error: "Invalid username or password" });
+      }
+
+      const user = users[0];
+      const hashedPassword = crypto.createHash("sha256").update(password).digest("hex");
+
+      if (hashedPassword === user.password) {
+        return { success: true, token: `admin-token-${user.id}-${Date.now()}` };
+      }
+
+      return reply.status(401).send({ error: "Invalid username or password" });
+    } catch (err) {
+      fastify.log.error(err);
+      reply.status(500).send({ error: "Authentication failed" });
+    }
+  }
+);
+
+// GET /api/admin/orders - Retrieve all orders with items and details
+fastify.get("/api/admin/orders", async (request, reply) => {
+  try {
+    const pool = await getPool();
+    const [orders]: any = await pool.query("SELECT * FROM orders ORDER BY created_at DESC");
+    
+    const ordersWithItems = [];
+    for (const order of orders) {
+      const [items]: any = await pool.query(
+        `SELECT oi.*, p.name as product_name, p.image_key 
+         FROM order_items oi 
+         JOIN products p ON oi.product_id = p.id 
+         WHERE oi.order_id = ?`,
+        [order.id]
+      );
+      ordersWithItems.push({
+        ...order,
+        items
+      });
+    }
+    return ordersWithItems;
+  } catch (err) {
+    fastify.log.error(err);
+    reply.status(500).send({ error: "Failed to retrieve orders" });
+  }
+});
+
+// PUT /api/admin/orders/:id/status - Update order status
+fastify.put<{ Params: { id: string }; Body: { status: string } }>(
+  "/api/admin/orders/:id/status",
+  async (request, reply) => {
+    const { id } = request.params;
+    const { status } = request.body || {};
+    if (!status) {
+      return reply.status(400).send({ error: "Status is required" });
+    }
+    try {
+      const pool = await getPool();
+      await pool.query("UPDATE orders SET status = ? WHERE id = ?", [status, id]);
+      return { success: true };
+    } catch (err) {
+      fastify.log.error(err);
+      reply.status(500).send({ error: "Failed to update order status" });
+    }
+  }
+);
+
+interface ProductRequestBody {
+  name: string;
+  price: number;
+  newprice: number;
+  description?: string;
+  image_key?: string;
+}
+
+// POST /api/admin/products - Add a new product
+fastify.post<{ Body: ProductRequestBody }>(
+  "/api/admin/products",
+  async (request, reply) => {
+    const { name, price, newprice, description, image_key } = request.body || {};
+    if (!name || price === undefined || newprice === undefined) {
+      return reply.status(400).send({ error: "Name, price, and newprice are required" });
+    }
+    try {
+      const pool = await getPool();
+      const [result]: any = await pool.query(
+        "INSERT INTO products (name, price, newprice, description, image_key) VALUES (?, ?, ?, ?, ?)",
+        [name, price, newprice, description || "", image_key || "Asus"]
+      );
+      return { success: true, productId: result.insertId };
+    } catch (err) {
+      fastify.log.error(err);
+      reply.status(500).send({ error: "Failed to create product" });
+    }
+  }
+);
+
+// PUT /api/admin/products/:id - Update an existing product
+fastify.put<{ Params: { id: string }; Body: ProductRequestBody }>(
+  "/api/admin/products/:id",
+  async (request, reply) => {
+    const { id } = request.params;
+    const { name, price, newprice, description, image_key } = request.body || {};
+    if (!name || price === undefined || newprice === undefined) {
+      return reply.status(400).send({ error: "Name, price, and newprice are required" });
+    }
+    try {
+      const pool = await getPool();
+      await pool.query(
+        "UPDATE products SET name = ?, price = ?, newprice = ?, description = ?, image_key = ? WHERE id = ?",
+        [name, price, newprice, description || "", image_key || "Asus", id]
+      );
+      return { success: true };
+    } catch (err) {
+      fastify.log.error(err);
+      reply.status(500).send({ error: "Failed to update product" });
+    }
+  }
+);
+
+// DELETE /api/admin/products/:id - Delete a product
+fastify.delete<{ Params: { id: string } }>(
+  "/api/admin/products/:id",
+  async (request, reply) => {
+    const { id } = request.params;
+    try {
+      const pool = await getPool();
+      await pool.query("DELETE FROM products WHERE id = ?", [id]);
+      return { success: true };
+    } catch (err) {
+      fastify.log.error(err);
+      reply.status(500).send({ error: "Failed to delete product" });
+    }
+  }
 );
 
 // Start the server

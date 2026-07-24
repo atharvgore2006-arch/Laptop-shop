@@ -1,5 +1,6 @@
 import mysql, { Pool } from "mysql2/promise";
 import dotenv from "dotenv";
+import crypto from "crypto";
 
 dotenv.config();
 
@@ -151,6 +152,32 @@ export async function initializeDatabase(): Promise<void> {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `);
+
+  // Create admins table
+  await activePool.query(`
+        CREATE TABLE IF NOT EXISTS admins (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+  // Check if admins exist, seed if not
+  const [adminRows]: any = await activePool.query(
+    "SELECT COUNT(*) as count FROM admins",
+  );
+  if (adminRows[0].count === 0) {
+    console.log("Database contains no admin accounts. Seeding default admin...");
+    const defaultUser = process.env.ADMIN_USER || "admin";
+    const defaultPass = process.env.ADMIN_PASS || "admin123";
+    const hashedPass = crypto.createHash("sha256").update(defaultPass).digest("hex");
+    await activePool.query(
+      "INSERT INTO admins (username, password) VALUES (?, ?)",
+      [defaultUser, hashedPass]
+    );
+    console.log("Default admin account successfully seeded!");
+  }
 
   // Check if products exist, seed if not
   const [rows]: any = await activePool.query(

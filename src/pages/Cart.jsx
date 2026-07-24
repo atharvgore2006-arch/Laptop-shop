@@ -2,7 +2,7 @@ import { Trash2, Plus, Minus } from "lucide-react";
 
 const Cart = ({ cart, removeFromCart, updateQuantity }) => {
   const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.newprice * item.quantity,
     0,
   );
 
@@ -29,7 +29,7 @@ const Cart = ({ cart, removeFromCart, updateQuantity }) => {
               />
               <div className="cart-item-details">
                 <h3>{item.name}</h3>
-                <p className="cart-item-price">₹{item.price}</p>
+                <p className="cart-item-price">₹{item.newprice}</p>
               </div>
               <div className="cart-item-actions">
                 <div className="quantity-controls">

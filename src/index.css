@@ -130,6 +130,10 @@ ul {
   align-items: center;
 }
 
+.nav-admin-mobile-only {
+  display: none;
+}
+
 .nav-cart-mobile {
   display: none;
 }
@@ -207,6 +211,14 @@ ul {
 
   .nav-cart-desktop {
     display: none;
+  }
+
+  .nav-admin-desktop {
+    display: none;
+  }
+
+  .nav-admin-mobile-only {
+    display: block;
   }
 
   .nav-cart-mobile {

@@ -59,6 +59,11 @@ const Navbar = ({ cartCount, openCart }) => {
               Contact
             </a>
           </li>
+          <li className="nav-item nav-admin-mobile-only">
+            <a href="/admin" className="nav-links" onClick={closeMenu}>
+              Admin
+            </a>
+          </li>
           <li className="nav-item nav-cart-mobile">
             <button
               className="nav-links cart-btn-mobile"
@@ -71,11 +76,41 @@ const Navbar = ({ cartCount, openCart }) => {
             </button>
           </li>
         </ul>
-        <div className="nav-cart-desktop">
-          <button onClick={openCart} className="cart-icon-link cart-btn">
-            <ShoppingCart size={24} />
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </button>
+        <div className="nav-right-desktop" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <div className="nav-admin-desktop">
+            <a
+              href="/admin"
+              className="nav-links"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                fontSize: "0.95rem",
+                fontWeight: "600",
+                background: "rgba(255, 255, 255, 0.1)",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                transition: "all 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(255, 255, 255, 0.2)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+              }}
+            >
+              Admin
+            </a>
+          </div>
+          <div className="nav-cart-desktop">
+            <button onClick={openCart} className="cart-icon-link cart-btn">
+              <ShoppingCart size={24} />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </button>
+          </div>
         </div>
       </div>
     </nav >

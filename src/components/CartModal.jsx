@@ -4,7 +4,7 @@ import { Trash2, Plus, Minus, X } from "lucide-react";
 
 const CartModal = ({ cart, removeFromCart, updateQuantity, closeCart, clearCart }) => {
   const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.newprice * item.quantity,
     0,
   );
 
@@ -20,7 +20,7 @@ const CartModal = ({ cart, removeFromCart, updateQuantity, closeCart, clearCart 
           items: cart.map((item) => ({
             id: item.id,
             quantity: item.quantity,
-            price: item.price,
+            price: item.newprice,
           })),
         }),
       });
@@ -66,7 +66,7 @@ const CartModal = ({ cart, removeFromCart, updateQuantity, closeCart, clearCart 
                   />
                   <div className="cart-item-details">
                     <h3>{item.name}</h3>
-                    <p className="cart-item-price"> ₹{item.price}</p>
+                    <p className="cart-item-price"> ₹{item.newprice}</p>
                     <div className="cart-item-actions">
                       <div className="quantity-controls">
                         <button

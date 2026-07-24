@@ -7,6 +7,10 @@ import Hp from "../assets/Hpgaming.jpg";
 import dell from '../assets/dell.jpg';
 import Thickbook from "../assets/Thickbook.jpg";
 import Neo from "../assets/Neo13.jpg";
+import hphyper from '../assets/Hphyper.jpg';
+import HPelite from '../assets/HPelite.jpg';
+import Macbook from '../assets/Macbook.webp';
+import Pro from '../assets/Pro.jpg';
 
 const imageMap = {
   Asus,
@@ -15,6 +19,10 @@ const imageMap = {
   dell,
   Thickbook,
   Neo,
+  hphyper,
+  HPelite,
+  Macbook,
+  Pro
 };
 
 const fallbackProductsData = [
@@ -88,10 +96,10 @@ const Products = ({ addToCart }) => {
         }
         const data = await response.json();
 
-        // Map database image_keys to local imported assets
+        // Map database image_keys to local imported assets or use absolute URLs
         const mapped = data.map((prod) => ({
           ...prod,
-          image: imageMap[prod.image_key] || Asus,
+          image: prod.image_key && prod.image_key.startsWith("http") ? prod.image_key : (imageMap[prod.image_key] || Asus),
         }));
         setProducts(mapped);
         setError(null);
@@ -101,7 +109,7 @@ const Products = ({ addToCart }) => {
 
         const mapped = fallbackProductsData.map((prod) => ({
           ...prod,
-          image: imageMap[prod.image_key] || Asus,
+          image: prod.image_key && prod.image_key.startsWith("http") ? prod.image_key : (imageMap[prod.image_key] || Asus),
         }));
         setProducts(mapped);
       } finally {
